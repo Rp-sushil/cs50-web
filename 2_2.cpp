@@ -56,7 +56,8 @@ queue<type>::~queue(){
 }
 
 
-int main(){
+int main()
+{
 	queue<int> q(3);
 	int option = -1;
 	while(option != 4){
