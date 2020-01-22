@@ -1,78 +1,84 @@
-#include <iostream>
-#include <stdlib.h>
+#include<iostream>
 using namespace std;
 
-class circularQueue
-{
-public:
-    int f = -1, r = -1;
-    int A[10];
-    void enqueue(int item);
-    int deque();
-    void display();
+template <typename type>
+class cirQueue{
+	public:
+		cirQueue(int);
+		~cirQueue();
+		bool enqueue(type item);
+		bool dequeue(type& item);
+		void display();
+	private:
+		type* data_value;
+		int front, back;
+		int capacity;
 };
 
-void circularQueue::enqueue(int item)
-{
-    f++;
-    if (r == -1)
-    {
-        r++;
-    }
-    else if (f % 10 >= r && f > 9)
-    {
-        cout << "Warning::OverFlow" << endl;
-        exit(1);
-    }
-    A[f] = item;
+template <typename type>
+cirQueue<type>::cirQueue(int cap){
+	capacity = cap;
+	data_value = new type[capacity];
+	front = -1;
+	back = -1;
 }
-int circularQueue::deque()
-{
-    if (r == -1)
-    {
-        cout << "\nWarning::UnderFlow" << endl;
-        exit(1);
-    }
-    else if (r > f)
-    {
-        cout << "\nWarning::UnderFlow" << endl;
-        exit(1);
-    }
-    else
-        return A[r++];
+
+template <typename type>
+bool cirQueue<type>::enqueue(type item){
+	if(back - front >=  capacity){
+		cout<<"Waring::OverFlow\n";
+		return false;
+	}
+	data_value[(++back) % capacity] = item;
+	return true;
 }
-void circularQueue::display()
-{
-    for (int i = (r % 10); i <= (f % 10); i++)
-    {
-        cout << A[i] << " ";
-    }
-    cout << endl;
+
+template <typename type>
+bool cirQueue<type>::dequeue(type& item){
+	if(front < back){
+		item = data_value[++front];
+		return true;
+	}
+	cout<<"Warning::UnderFlow\n";
+	return false;
 }
+
+template <typename type>
+void cirQueue<type>::display(){
+	for(int i = (front + 1) % capacity; i <= back % capacity; i++){
+		cout<<data_value[i]<<" ";
+	}
+	cout<<endl;
+}
+template <typename type>
+cirQueue<type>::~cirQueue(){
+	delete [] data_value;
+}
+	
 
 int main()
 {
-    circularQueue cq;
+    cirQueue<int> cq(5);
     int option = -1;
     while (option != 4)
     {
-        cout << "1.enqueue" << endl;
-        cout << "2.dequeue" << endl;
-        cout << "3.display" << endl;
+        cout << "1.enqueue\t";
+        cout << "2.dequeue\t";
+        cout << "3.display\t";
         cout << "4.exit" << endl;
         cout << "option := ";
         cin >> option;
         if (option == 1)
         {
-            cout << "\nEnter element: ";
+            cout << "Enter element: ";
             int item;
             cin >> item;
             cq.enqueue(item);
         }
         else if (option == 2)
         {
-            int pop = cq.deque();
-            cout << "Popped element: " << pop;
+		int item; 
+	    cq.dequeue(item);
         }
         else if (option == 3)
         {
