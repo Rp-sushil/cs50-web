@@ -30,7 +30,7 @@ int main()
     if (m != p)
     {
         cout << "Wrong dimensions\n";
-        return 0;
+        return 1;
     }
     int C[n][q];
     for (int i = 0; i < n; i++)
