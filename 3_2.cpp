@@ -26,7 +26,6 @@ int main()
             }
         }
 	int k = 0;
-	cout<<min<<endl;
         for (k = 0; k < n; k++)			// finding maximum in columns
         {
         	if(min < A[k][colIndex])
